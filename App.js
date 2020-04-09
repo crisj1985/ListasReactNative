@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TextInput, Button } from 'react-native';
+import {ItemPersona } from './componentes/ItemPersonas';
+import {recuperarPersonas, agregarPersona} from './servicios/personas'
 
 
 // const personas = [
@@ -10,21 +12,48 @@ export default class App extends Component {
 
  constructor (){
    super();
+   const personas = recuperarPersonas();
    this.state = {
-     personas: [
-       { indice: '10', nombre: 'Cristian' },
-       { indice: '20', nombre: 'Paul' },
-       { indice: '30', nombre: 'Henry' }]
+     nombre:"",
+     id : "",
+     telefono : "",
+     listaPersonas:personas
    }
- }
+   }
+
 
   render(){
     return (
       <View style={styles.container}>
         <Text>Listas</Text>
+        <TextInput 
+          value = {this.state.id}
+          placeholder = 'id'
+          onChangeText={(txt) => { this.setState({ id:txt} )}}
+          />
+        <TextInput
+          value={this.state.nombre}
+          placeholder='Nombre'
+          onChangeText={(txt) => { this.setState( { nombre: txt } )}}
+        />
+        <TextInput
+          value={this.state.telefono}
+          placeholder='Telefono'
+          onChangeText={(txt) => { this.setState ({ telefono: txt } )}}
+        />
+        <Button 
+          title="Guardar" 
+          onPress={()=>{
+                          agregarPersona({ indice: this.state.id, nombre: this.state.nombre, telefono: this.state.telefono });
+                          const personas = recuperarPersonas();
+                          this.setState({ listaPersonas: personas})
+                       }
+                  } 
+        />
+
         <FlatList
-          data = {this.state.personas}
-          renderItem = {item=><Text>{item.item.nombre}</Text>}
+          data = {this.state.listaPersonas}
+          renderItem={({ item, index }) =>  { return <ItemPersona persona={item} indice={index}/>}}
           keyExtractor = {item=>item.indice}
         />
       </View>
@@ -33,6 +62,7 @@ export default class App extends Component {
   }
  
 }
+ 
 
 const styles = StyleSheet.create({
   container: {
