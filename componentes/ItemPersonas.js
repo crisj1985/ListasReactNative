@@ -1,23 +1,29 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
-import {eliminarPersona} from '../servicios/personas'
+import {eliminarPersona,actualizarPersona} from '../servicios/personas'
 
  export class ItemPersona extends Component{
 
     render(){
 
         const {persona,indice} = this.props;
-        const { nombre, telefono } = persona;
+        const { nombre, telefono,id } = persona;
 
         return (
             <View style={styles.fila} >
-                <Text style={styles.principal}>{nombre}- {indice} </Text>  
+                <Text style={styles.principal}>{nombre} - {id} </Text>  
                 <Text style={styles.secundario}>{telefono}</Text>
                 <Button title='Eliminar' color='red' onPress={()=>{
                     eliminarPersona(persona);
                     this.props.fnRepintar();
                 }
                     } ></Button>
+
+                
+                <Button title='Seleccionar' color='blue' onPress={() => {
+                    this.props.fnSeleccionar(persona);
+                }
+                } ></Button>
             </View>
             
         );

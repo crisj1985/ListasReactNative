@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, FlatList, TextInput, Button } from 'react-native';
 import {ItemPersona } from './componentes/ItemPersonas';
-import {recuperarPersonas, agregarPersona} from './servicios/personas'
+import {recuperarPersonas, agregarPersona,actualizarPersona} from './servicios/personas'
 
 
 // const personas = [
@@ -18,7 +18,8 @@ export default class App extends Component {
                   nombre:"",
                   id : "",
                   telefono : "",
-                  listaPersonas:personas
+                  listaPersonas:personas,
+                  actualizar: false
                 }
   }
 
@@ -26,6 +27,22 @@ export default class App extends Component {
     const personas = recuperarPersonas();
     this.setState({ listaPersonas: personas })
   }
+
+  seleccionar = (persona)=>{
+    this.setState({
+      nombre: persona.nombre,
+      id: persona.id,
+      telefono: persona.telefono,
+    })
+  }
+
+limpiar = ()=>{
+  this.setState({
+    nombre: '',
+    id: '',
+    telefono: ''
+  })
+}
 
   render(){
     return (
@@ -49,16 +66,23 @@ export default class App extends Component {
         <Button 
           title="Guardar" 
           onPress={()=>{
-                          agregarPersona({ indice: this.state.id, nombre: this.state.nombre, telefono: this.state.telefono });
+                          agregarPersona({ id: this.state.id, nombre: this.state.nombre, telefono: this.state.telefono });
                           this.repintarLista();
+                          this.limpiar();
                        }
                   } 
         />
+        <Button title='Actualizar' color='green' onPress={() => {
+          actualizarPersona({ id: this.state.id, nombre: this.state.nombre, telefono: this.state.telefono });
+          this.repintarLista();
+          this.limpiar();
+        }
+        } ></Button>
 
         <FlatList
           data = {this.state.listaPersonas}
-          renderItem={({ item, index }) =>  { return <ItemPersona persona={item} indice={index} fnRepintar={this.repintarLista}/>}}
-          keyExtractor = {item=>item.indice}
+          renderItem={({ item, index }) =>  { return <ItemPersona persona={item} indice={index} fnRepintar={this.repintarLista} fnSeleccionar ={this.seleccionar}/>}}
+          keyExtractor = {item=>item.id}
         />
       </View>
     );
