@@ -4,10 +4,6 @@ import {ItemPersona } from './componentes/ItemPersonas';
 import {recuperarPersonas, agregarPersona,actualizarPersona} from './servicios/personas'
 
 
-// const personas = [
-//   { index: '10', nombre: 'Cristian' },
-//   { index: '20', nombre: 'Paul' },
-//   { index: '30', nombre: 'Henry' }]
 export default class App extends Component {
 
  constructor ()
@@ -63,22 +59,31 @@ limpiar = ()=>{
           placeholder='Telefono'
           onChangeText={(txt) => { this.setState ({ telefono: txt } )}}
         />
-        <Button 
-          title="Guardar" 
-          onPress={()=>{
-                          agregarPersona({ id: this.state.id, nombre: this.state.nombre, telefono: this.state.telefono });
-                          this.repintarLista();
-                          this.limpiar();
-                       }
-                  } 
-        />
-        <Button title='Actualizar' color='green' onPress={() => {
-          actualizarPersona({ id: this.state.id, nombre: this.state.nombre, telefono: this.state.telefono });
-          this.repintarLista();
-          this.limpiar();
+        {!this.state.actualizar 
+        ?
+          <Button 
+            title="Guardar" 
+            onPress={()=>{
+                            agregarPersona({ id: this.state.id, nombre: this.state.nombre, telefono: this.state.telefono });
+                            this.repintarLista();
+                            this.limpiar();
+                            this.setState({actualizar:true});
+                          }
+                    } 
+          />
+        :
+          <Button 
+            title='Actualizar' 
+            color='green' 
+            onPress={() => {
+                            actualizarPersona({ id: this.state.id, nombre: this.state.nombre, telefono: this.state.telefono });
+                            this.repintarLista();
+                            this.limpiar();
+                            this.setState({ actualizar: false });    
+                          }
+                    } 
+          />
         }
-        } ></Button>
-
         <FlatList
           data = {this.state.listaPersonas}
           renderItem={({ item, index }) =>  { return <ItemPersona persona={item} indice={index} fnRepintar={this.repintarLista} fnSeleccionar ={this.seleccionar}/>}}
@@ -98,7 +103,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'stretch',
     justifyContent: 'center',
-    marginLeft: 10,
-    marginRight: 10,
+    marginLeft: 20,
+    marginRight: 20,
   },
 });
