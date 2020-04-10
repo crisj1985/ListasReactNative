@@ -10,17 +10,22 @@ import {recuperarPersonas, agregarPersona} from './servicios/personas'
 //   { index: '30', nombre: 'Henry' }]
 export default class App extends Component {
 
- constructor (){
+ constructor ()
+ {
    super();
    const personas = recuperarPersonas();
    this.state = {
-     nombre:"",
-     id : "",
-     telefono : "",
-     listaPersonas:personas
-   }
-   }
+                  nombre:"",
+                  id : "",
+                  telefono : "",
+                  listaPersonas:personas
+                }
+  }
 
+  repintarLista = ()=>{
+    const personas = recuperarPersonas();
+    this.setState({ listaPersonas: personas })
+  }
 
   render(){
     return (
@@ -45,15 +50,14 @@ export default class App extends Component {
           title="Guardar" 
           onPress={()=>{
                           agregarPersona({ indice: this.state.id, nombre: this.state.nombre, telefono: this.state.telefono });
-                          const personas = recuperarPersonas();
-                          this.setState({ listaPersonas: personas})
+                          this.repintarLista();
                        }
                   } 
         />
 
         <FlatList
           data = {this.state.listaPersonas}
-          renderItem={({ item, index }) =>  { return <ItemPersona persona={item} indice={index}/>}}
+          renderItem={({ item, index }) =>  { return <ItemPersona persona={item} indice={index} fnRepintar={this.repintarLista}/>}}
           keyExtractor = {item=>item.indice}
         />
       </View>
@@ -68,7 +72,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
+    alignItems: 'stretch',
     justifyContent: 'center',
+    marginLeft: 10,
+    marginRight: 10,
   },
 });

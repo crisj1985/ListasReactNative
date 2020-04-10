@@ -9,12 +9,23 @@ const personas = [
 export const recuperarPersonas = () => personas;
 
 export const agregarPersona = (persona) => {
-    if (buscarPersona(persona).length < 1)
+    if (buscarPersona(persona) == -1)
         personas.push(persona)
     else
-        Alert.alert("Usuario ya ingresado")
+        Alert.alert("Id de Usuario ya ingresado")
 };
 
 const buscarPersona = (persona) => {
-    return personas.filter((item) => item.indice == persona.indice)
+    for (let i = 0; i < personas.length; i++) {
+        if (personas[i].indice == persona.indice)
+            return i;
+    }
+    return -1;
+    // return personas.filter((item) => item.indice == persona.indice)
+}
+
+export const eliminarPersona = (persona) => {
+    let posicion = buscarPersona(persona);
+    personas.splice(posicion, 1)
+
 }
