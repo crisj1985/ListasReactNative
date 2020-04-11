@@ -1,9 +1,9 @@
 import { Alert } from "react-native";
 
 const personas = [
-    { id: '7', nombre: 'Cristiano', telefono: "456456" },
-    { id: '10', nombre: 'Pálido Narizón', telefono: "565" },
-    { id: '5', nombre: 'Iniesta', telefono: "23432" }
+    { id: '1', nombre: 'Cristiano', telefono: "456456" },
+    { id: '2', nombre: 'Pálido Narizón', telefono: "565" },
+    { id: '3', nombre: 'Iniesta', telefono: "23432" }
 ];
 
 export const imagenes = [
@@ -22,9 +22,11 @@ export const imagenes = [
 export const recuperarPersonas = () => personas;
 
 export const agregarPersona = (persona) => {
-    if (buscarPersona(persona) == -1)
-        personas.push(persona)
-    else
+    if (buscarPersona(persona) == -1) {
+        if (persona.nombre == "" || persona.telefono == "")
+            Alert.alert('Debe ingresar todos los campos');
+        personas.push(persona);
+    } else
         Alert.alert("Id de Usuario ya ingresado")
 };
 

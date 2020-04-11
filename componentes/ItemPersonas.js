@@ -24,12 +24,14 @@ import Icon from "react-native-vector-icons/FontAwesome";
             <TouchableHighlight
               style={styles.seccionTexto}
               onPress={() => {
+                  this.props.fnRepintar();
                 this.props.fnSeleccionar(persona);
+                
               }}
             >
               <View>
                 <Text style={styles.principal}>
-                  {nombre} - {id}{" "}
+                  {id} - {nombre}
                 </Text>
                 <Text style={styles.secundario}>{telefono}</Text>
               </View>
