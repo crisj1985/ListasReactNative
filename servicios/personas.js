@@ -1,9 +1,22 @@
 import { Alert } from "react-native";
 
 const personas = [
-    { id: '10', nombre: 'Cristian', telefono: "456456" },
-    { id: '20', nombre: 'Paul', telefono: "565" },
-    { id: '30', nombre: 'Henry', telefono: "23432" }
+    { id: '7', nombre: 'Cristiano', telefono: "456456" },
+    { id: '10', nombre: 'Pálido Narizón', telefono: "565" },
+    { id: '5', nombre: 'Iniesta', telefono: "23432" }
+];
+
+export const imagenes = [
+    // require("../imagenes/bean.jpeg"),
+    {
+        uri: "https://st-listas.20minutos.es/images/2011-12/311753/3275033_640px.jpg",
+    },
+    {
+        uri: "https://st-listas.20minutos.es/images/2011-12/311753/3275034_249px.jpg",
+    },
+    {
+        uri: "https://st-listas.20minutos.es/images/2011-12/311753/3275030_640px.jpg",
+    },
 ];
 
 export const recuperarPersonas = () => personas;
